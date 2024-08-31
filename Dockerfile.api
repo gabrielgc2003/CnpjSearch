@@ -8,4 +8,4 @@ COPY ./CnpjSearchApi/target/CnpjSearchApi-0.0.1-SNAPSHOT.jar /app/
 EXPOSE 8081
 
 # Inicie o aplicativo Spring Boot quando o contêiner for iniciado
-CMD ["java", "-jar", "/app/CnpjSearchApi-API-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/CnpjSearchApi-0.0.1-SNAPSHOT.jar"]
