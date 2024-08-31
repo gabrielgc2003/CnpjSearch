@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui" xmlns:h1="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+    <title>Teste SmartBR</title>
+    <h:head> </h:head>
+    <link rel="StyleSheet" type="text/css" href="css/styles.css" media="screen" />
+</head>
+<body>
+<div class="container">
+    <h:form>
+        <h:panelGrid columns="1">
+            <p:row>
+                <o:outputLabel for="name" value="Razão social: " />
+                <h:outputText id="name" value="#{companyInfoBean.company.companyName}" styleClass="font-normal"/>
+            </p:row>
+            <p:row>
+                <o:outputLabel for="city" value="Cidade: " />
+                <h:outputText id="city" value="#{companyInfoBean.company.city}" styleClass="font-normal"/>
+            </p:row>
+            <p:row>
+                <o:outputLabel for="resgistrationStatus" value="Situação cadastral: " />
+                <h:outputText id="resgistrationStatus" value="#{companyInfoBean.company.registrationStatus}" styleClass="font-normal"/>
+            </p:row>
+            <p:row>
+                <o:outputLabel for="registrationDate" value="Data de cadastro: " />
+                <h:outputText id="registrationDate" value="#{companyInfoBean.company.registrationDate}" styleClass="font-normal">
+                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                </h:outputText>
+            </p:row>
+            <p:row>
+                <o:outputLabel for="phone" value="Telefone: " />
+                <p:inputMask id="phone" mask="#{maskBean.PHONE_MASK}" value="#{companyInfoBean.company.phone}" styleClass="font-normal"/>
+            </p:row>
+            <p:row>
+                <o:outputLabel for="address" value="Endereço: " />
+                <p:inputText id="address" mask="#{maskBean.PHONE_MASK}" value="#{companyInfoBean.company.address}" styleClass="font-normal"/>
+            </p:row>
+            <h:panelGrid columns="2">
+                <h:commandButton value="Voltar" actionListener="#{companyInfoBean.redirect()}"/>
+                <h:commandButton value="Salvar" actionListener="#{companyInfoBean.save()}" oncomplete="PF('dlg').show();" />
+            </h:panelGrid>
+        </h:panelGrid>
+
+    </h:form>
+    <p:dialog header="Sucesso" widgetVar="dlg" modal="true" dynamic="true">
+        <p>Os dados foram salvos com sucesso!</p>
+    </p:dialog>
+</div>
+</body>
+</html>

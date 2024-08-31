@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://java.sun.com/jsf/html"
+>
+
+<head>
+    <title>Teste SmartBR</title>
+    <h:head> </h:head>
+    <link rel="StyleSheet" type="text/css" href="css/styles.css" media="screen" />
+</head>
+<body>
+    <div class="container">
+        <h:form>
+            <h:panelGrid columns="1">
+                <div>
+                    <o:outputLabel for="cnpj" value="CNPJ" />
+                    <p:inputMask id="cnpj" label="Cnpj" mask="#{maskBean.CNPJ_MASK}" value="#{indexBean.CNPJ}" validator="CnpjValidator" required="required"/>
+                    <p:message for="cnpj" />
+                </div>
+
+                <h:commandButton value="Pesquisar" actionListener="#{indexBean.getCompanyByCnpj()}"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+</body>
+</html>

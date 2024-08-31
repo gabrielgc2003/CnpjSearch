@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  glassfish:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    environment:
+      BASE_API_URL: http://springboot:8081
+    ports:
+      - "8080:8080"
+
+  springboot:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://PostgreSQL:5432/cnpj-search-db
+    ports:
+      - "8081:8081"
+    depends_on:
+      - PostgreSQL
+
+  PostgreSQL:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cnpj-search-db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

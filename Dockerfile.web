@@ -1,0 +1,11 @@
+# Use a imagem oficial do Tomcat 9 como a imagem base
+FROM tomcat:9.0.93-jre8
+
+# Copie o arquivo WAR do seu projeto JSF para o diretório webapps do Tomcat
+COPY ./CnpjSearchApi/target/*.war /usr/local/tomcat/webapps/
+
+# Exponha a porta padrão do Tomcat (8080) para o frontend JSF
+EXPOSE 8080
+
+# Inicie o Tomcat quando o contêiner for iniciado
+CMD ["catalina.sh", "run"]

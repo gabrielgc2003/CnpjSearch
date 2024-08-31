@@ -1,0 +1,21 @@
+*{
+    font-weight: normal;
+    font-family: arial, sans-serifserif, monospace;
+    font-size: 17px;
+}
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.font-normal{
+    font-weight: normal;
+    font-size: 15px;
+}
