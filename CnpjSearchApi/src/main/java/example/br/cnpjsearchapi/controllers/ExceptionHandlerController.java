@@ -46,4 +46,11 @@ public class ExceptionHandlerController {
 
         return new ApiExceptionDTO(errorMessage);
     }
+
+    // Caso ocorra uma exceção não tratada
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiExceptionDTO handleException(Exception e) {
+        return new ApiExceptionDTO("Ocorreu um erro inesperado." + e.getMessage()) ;
+    }
 }

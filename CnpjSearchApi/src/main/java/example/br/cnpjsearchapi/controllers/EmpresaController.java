@@ -1,14 +1,13 @@
 package example.br.cnpjsearchapi.controllers;
 
-import example.br.cnpjsearchapi.dtos.EmpresaResponseDTO;
+import example.br.cnpjsearchapi.dtos.requests.EmpresaRequestDTO;
+import example.br.cnpjsearchapi.dtos.responses.EmpresaResponseDTO;
 import example.br.cnpjsearchapi.exceptions.ApiException;
 import example.br.cnpjsearchapi.services.EmpresaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -22,5 +21,11 @@ public class EmpresaController {
     public ResponseEntity<EmpresaResponseDTO> getCnpj(@PathVariable("cnpj") String cnpj) throws ApiException {
         Optional<EmpresaResponseDTO> empresaResponseDTO = empresaService.getCnpj(cnpj);
         return empresaResponseDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity createCnpj(@Valid @RequestBody EmpresaRequestDTO empresaRequestDTO) {
+        Optional<EmpresaResponseDTO> empresaResponse = empresaService.createCnpj(empresaRequestDTO);
+        return ResponseEntity.ok(empresaResponse);
     }
 }

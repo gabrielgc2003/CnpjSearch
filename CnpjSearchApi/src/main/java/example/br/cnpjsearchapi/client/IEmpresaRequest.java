@@ -1,6 +1,6 @@
 package example.br.cnpjsearchapi.client;
 
-import example.br.cnpjsearchapi.dtos.EmpresaResponseDTO;
+import example.br.cnpjsearchapi.dtos.responses.EmpresaResponseDTO;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

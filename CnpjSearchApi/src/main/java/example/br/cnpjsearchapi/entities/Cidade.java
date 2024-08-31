@@ -15,9 +15,6 @@ public class Cidade {
     @Id // Define o campo 'id' como chave primária da tabela
     private int id;
 
-    @NotNull(message = "O nome da cidade não pode ser nulo.") // Validação para campo não nulo
-    @Size(min = 1, max = 100, message = "O nome da cidade deve ter entre 1 e 100 caracteres.") // Validação para o intervalo de caracteres
-    @Column(name = "nome", length = 100, nullable = false) // Configuração da coluna no banco, incluindo tamanho e não nulidade
     private String nome;
 
     // Construtores
@@ -26,6 +23,11 @@ public class Cidade {
     public Cidade(int id, String nome) {
         this.id = id;
         this.nome = nome;
+    }
+
+    public Cidade(CidadeDTO cidade) {
+        this.id = cidade.getId();
+        this.nome = cidade.getNome();
     }
 
     // Getters and Setters
@@ -46,4 +48,7 @@ public class Cidade {
     }
 
 
+    public CidadeDTO toCidadeDTO() {
+        return new CidadeDTO(this.id, this.nome);
+    }
 }

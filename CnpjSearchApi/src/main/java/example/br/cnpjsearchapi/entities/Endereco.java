@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "endereco") // Mapeia a entidade para a tabela 'endereco' no banco de dados
@@ -14,44 +15,32 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Geração automática do valor do 'id'
     private Long id;
 
-    @NotNull(message = "O tipo de logradouro não pode ser nulo.") // Validação para campo não nulo
-    @Size(max = 50, message = "O tipo de logradouro deve ter no máximo 50 caracteres.") // Define o tamanho máximo do campo
     @Column(name = "tipo_logradouro", length = 50, nullable = false) // Configurações da coluna no banco de dados
     private String tipoLogradouro;
 
-    @NotNull(message = "O logradouro não pode ser nulo.")
-    @Size(max = 100, message = "O logradouro deve ter no máximo 100 caracteres.")
     @Column(name = "logradouro", length = 100, nullable = false)
     private String logradouro;
 
-    @Size(max = 20, message = "O número deve ter no máximo 20 caracteres.")
     @Column(name = "numero", length = 20)
     private String numero;
 
-    @Size(max = 100, message = "O complemento deve ter no máximo 100 caracteres.")
     @Column(name = "complemento", length = 100)
     private String complemento;
 
-    @NotNull(message = "O bairro não pode ser nulo.")
-    @Size(max = 50, message = "O bairro deve ter no máximo 50 caracteres.")
     @Column(name = "bairro", length = 50, nullable = false)
     private String bairro;
 
-    @NotNull(message = "O CEP não pode ser nulo.")
-    @Pattern(regexp = "\\d{5}-\\d{3}", message = "O CEP deve estar no formato 99999-999.") // Validação de formato
     @Column(name = "cep", length = 9, nullable = false)
     private String cep;
 
-    @Size(max = 2, message = "O DDD deve ter no máximo 2 caracteres.")
     @Column(name = "ddd", length = 2)
     private String ddd;
 
-    @Size(max = 9, message = "O telefone deve ter no máximo 9 caracteres.")
     @Column(name = "telefone", length = 9)
     private String telefone;
 
-    @OneToOne // Relacionamento um para um com a entidade 'Cidade'
-    @JoinColumn(name = "cidade_id", referencedColumnName = "id") // Configuração da chave estrangeira
+    @ManyToOne(cascade = {CascadeType.PERSIST})  // Relacionamento muitos-para-um com cascata de operações
+    @JoinColumn(name = "cidade_id", referencedColumnName = "id")
     private Cidade cidade;
 
     // Construtor padrão
@@ -70,6 +59,18 @@ public class Endereco {
         this.ddd = ddd;
         this.telefone = telefone;
         this.cidade = cidade;
+    }
+
+    public Endereco(EstabelecimentoDTO estabelecimento) {
+        this.tipoLogradouro = estabelecimento.getTipoLogradouro();
+        this.logradouro = estabelecimento.getLogradouro();
+        this.numero = estabelecimento.getNumero();
+        this.complemento = estabelecimento.getComplemento();
+        this.bairro = estabelecimento.getBairro();
+        this.cep = estabelecimento.getCep();
+        this.ddd = estabelecimento.getDdd();
+        this.telefone = estabelecimento.getTelefone();
+        this.cidade = new Cidade(estabelecimento.getCidade());
     }
 
     // Getters e Setters
@@ -154,5 +155,24 @@ public class Endereco {
         this.cidade = cidade;
     }
 
+    public EstabelecimentoDTO toEstabelecimentoDTO(Empresa empresa) {
+        // Obtemos o endereço associado à empresa
+        var endereco = empresa.getEndereco();
 
+        // Construímos o EstabelecimentoDTO com base nos dados da empresa e do endereço
+        return new EstabelecimentoDTO(
+                empresa.getCnpj(),                            // CNPJ da empresa
+                empresa.getSituacaoCadastral().getSituacao(),  // Situação cadastral da empresa
+                empresa.getDataSituacaoCadastral().toString(), // Data da situação cadastral (convertida para String)
+                endereco.getTipoLogradouro(),               // Tipo de logradouro do endereço
+                endereco.getLogradouro(),                   // Logradouro do endereço
+                endereco.getNumero(),                       // Número do endereço
+                endereco.getComplemento(),                  // Complemento do endereço
+                endereco.getCep(),                          // CEP do endereço
+                endereco.getBairro(),                       // Bairro do endereço
+                endereco.getDdd(),                          // DDD do telefone
+                endereco.getTelefone(),                     // Telefone do endereço
+                endereco.getCidade().toCidadeDTO()          // Conversão da cidade para CidadeDTO
+        );
+    }
 }

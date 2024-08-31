@@ -14,4 +14,14 @@ public enum SituacaoCadastralEnum {
     public String getSituacao() {
         return situacao;
     }
+
+    // Método para encontrar o enum pelo valor do campo 'situacao'
+    public static SituacaoCadastralEnum fromSituacao(String situacao) {
+        for (SituacaoCadastralEnum value : SituacaoCadastralEnum.values()) {
+            if (value.getSituacao().equalsIgnoreCase(situacao)) {
+                return value;
+            }
+        }
+        throw new IllegalArgumentException("Situacao Cadastral inválida: " + situacao);
+    }
 }

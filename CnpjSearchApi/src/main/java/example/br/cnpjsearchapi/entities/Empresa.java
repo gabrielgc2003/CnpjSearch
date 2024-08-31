@@ -1,12 +1,14 @@
 package example.br.cnpjsearchapi.entities;
 
-import example.br.cnpjsearchapi.dtos.EmpresaResponseDTO;
+import example.br.cnpjsearchapi.dtos.requests.EmpresaRequestDTO;
 import example.br.cnpjsearchapi.enums.SituacaoCadastralEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Entity
 @Table(name = "empresa")
@@ -16,40 +18,46 @@ public class Empresa {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Gera automaticamente o valor do ID
     private Long id;
 
-    @NotNull(message = "O CNPJ não pode ser nulo.") // Validação para campo não nulo
-    @Size(min = 14, max = 14, message = "O CNPJ deve ter exatamente 14 caracteres.") // Validação para o tamanho exato de 14 caracteres
     @Column(name = "cnpj", length = 14, nullable = false, unique = true) // Configuração da coluna no banco
     private String cnpj;
 
-    @NotNull(message = "A razão social não pode ser nula.") // Validação para campo não nulo
-    @Size(min = 1, max = 255, message = "A razão social deve ter entre 1 e 255 caracteres.") // Validação para o intervalo de caracteres
     @Column(name = "razao_social", length = 255, nullable = false) // Configuração da coluna no banco
     private String razaoSocial;
 
-    @OneToOne(cascade = CascadeType.ALL) // Relacionamento um-para-um com cascata de operações
+    @OneToOne(cascade = CascadeType.PERSIST) // Relacionamento um-para-um com cascata de operações
     @JoinColumn(name = "endereco_id", referencedColumnName = "id") // Define a chave estrangeira para a tabela Endereco
     private Endereco endereco;
 
-    @NotNull(message = "A situação cadastral não pode ser nula.") // Validação para campo não nulo
     @Enumerated(EnumType.STRING) // Armazena o valor da enum como String no banco de dados
     @Column(name = "situacao_cadastral", nullable = false) // Configuração da coluna no banco
     private SituacaoCadastralEnum situacaoCadastral;
 
     @Column(name = "data_situacao_cadastral") // Configuração da coluna no banco
-    private Timestamp dataSituacaoCadastral;
+    private Date dataSituacaoCadastral;
+
+    @Column(name = "data_cadastro", nullable = false) // Configuração da coluna no banco
+    private Date dataCadastro;
 
     // Construtor padrão
     public Empresa() {
     }
 
     // Construtor com parâmetros
-    public Empresa(Long id, String cnpj, String razaoSocial, Endereco endereco, SituacaoCadastralEnum situacaoCadastral, Timestamp dataSituacaoCadastral) {
+    public Empresa(Long id, String cnpj, String razaoSocial, Endereco endereco, SituacaoCadastralEnum situacaoCadastral, Date dataSituacaoCadastral) {
         this.id = id;
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;
         this.endereco = endereco;
         this.situacaoCadastral = situacaoCadastral;
         this.dataSituacaoCadastral = dataSituacaoCadastral;
+    }
+
+    public Empresa(EmpresaRequestDTO empresaRequestDTO) {
+        this.razaoSocial = empresaRequestDTO.getRazaoSocial();
+        this.cnpj = empresaRequestDTO.getEstabelecimento().getCnpj();
+        this.situacaoCadastral = SituacaoCadastralEnum.fromSituacao(empresaRequestDTO.getEstabelecimento().getSituacaoCadastral());
+        this.dataSituacaoCadastral = Date.valueOf(empresaRequestDTO.getEstabelecimento().getDataSituacaoCadastral());
+        this.endereco = new Endereco(empresaRequestDTO.getEstabelecimento());
     }
 
     // Getters e Setters
@@ -93,12 +101,19 @@ public class Empresa {
         this.situacaoCadastral = situacaoCadastral;
     }
 
-    public Timestamp getDataSituacaoCadastral() {
+    public Date getDataSituacaoCadastral() {
         return dataSituacaoCadastral;
     }
 
-    public void setDataSituacaoCadastral(Timestamp dataSituacaoCadastral) {
+    public void setDataSituacaoCadastral(Date dataSituacaoCadastral) {
         this.dataSituacaoCadastral = dataSituacaoCadastral;
+    }
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
 

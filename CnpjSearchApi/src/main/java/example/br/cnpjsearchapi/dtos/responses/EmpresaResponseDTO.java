@@ -1,7 +1,10 @@
-package example.br.cnpjsearchapi.dtos;
+package example.br.cnpjsearchapi.dtos.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import example.br.cnpjsearchapi.dtos.EstabelecimentoDTO;
 
+@JsonIgnoreProperties(ignoreUnknown = true) // Ignora propriedades desconhecidas
 public class EmpresaResponseDTO {
 
     @JsonProperty("razao_social")
