@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+// Repositório para Empresa
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long>{
     Optional<Empresa> findByCnpj(String cnpj);

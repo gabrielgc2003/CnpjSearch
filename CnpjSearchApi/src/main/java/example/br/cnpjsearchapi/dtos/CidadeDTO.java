@@ -5,12 +5,12 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+//Classe de transferência de dados para Cidade
 @JsonIgnoreProperties(ignoreUnknown = true) // Ignora propriedades desconhecidas
 public class CidadeDTO {
     private int id;
     @NotNull(message = "O nome da cidade não pode ser nulo.") // Validação para campo não nulo
     @Size(min = 1, max = 100, message = "O nome da cidade deve ter entre 1 e 100 caracteres.") // Validação para o intervalo de caracteres
-    @Column(name = "nome", length = 100, nullable = false) // Configuração da coluna no banco, incluindo tamanho e não nulidade
     private String nome;
 
     // Construtor padrão

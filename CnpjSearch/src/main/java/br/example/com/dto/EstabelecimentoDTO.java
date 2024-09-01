@@ -1,76 +1,46 @@
-package example.br.cnpjsearchapi.dtos;
+package br.example.com.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.validator.constraints.br.CNPJ;
 
-//Classe de transferência de dados para Estabelecimento
-@JsonIgnoreProperties(ignoreUnknown = true) // Ignora propriedades desconhecidas
+// Classe de comunicação Estabelecimento
 public class EstabelecimentoDTO {
 
     @JsonProperty("cnpj")
-    @Size(min = 14, max = 14, message = "O CNPJ deve ter exatamente 14 caracteres.") // Validação para o tamanho exato de 14 caracteres
-    @NotBlank(message = "CNPJ é obrigatório.")
-    @CNPJ(message = "CNPJ inválido.")
     private String cnpj;
 
     @JsonProperty("situacao_cadastral")
-    @NotNull(message = "A situação cadastral não pode ser nula.") // Validação para campo não nulo
-    @NotBlank(message = "Situação cadastral é obrigatória.")
     private String situacaoCadastral;
 
     @JsonProperty("data_situacao_cadastral")
-    @NotNull(message = "A data da situação cadastral não pode ser nula.") // Validação para campo não nulo
-    @NotBlank(message = "Data da situação cadastral é obrigatória.")
     private String dataSituacaoCadastral;
 
     @JsonProperty("tipo_logradouro")
-    @NotNull(message = "O tipo de logradouro não pode ser nulo.") // Validação para campo não nulo
-    @NotBlank(message = "Tipo de logradouro é obrigatório.")
-    @Size(max = 50, message = "O tipo de logradouro deve ter no máximo 50 caracteres.") // Define o tamanho máximo do campo
     private String tipoLogradouro;
 
     @JsonProperty("logradouro")
-    @NotNull(message = "O logradouro não pode ser nulo.")
-    @NotBlank(message = "Logradouro é obrigatório.")
-    @Size(max = 100, message = "O logradouro deve ter no máximo 100 caracteres.")
     private String logradouro;
 
     @JsonProperty("numero")
-    @Size(max = 20, message = "O número deve ter no máximo 20 caracteres.")
     private String numero;
 
     @JsonProperty("complemento")
-    @Size(max = 100, message = "O complemento deve ter no máximo 100 caracteres.")
     private String complemento;
 
     @JsonProperty("cep")
-    @NotNull(message = "O CEP não pode ser nulo.")
-    @NotBlank(message = "CEP é obrigatório.")
     private String cep;
 
     @JsonProperty("bairro")
-    @NotNull(message = "O bairro não pode ser nulo.")
-    @NotBlank(message = "Bairro é obrigatório.")
-    @Size(max = 50, message = "O bairro deve ter no máximo 50 caracteres.")
     private String bairro;
 
     @JsonProperty("ddd1")
-    @Size(max = 2, message = "O DDD deve ter no máximo 2 caracteres.")
     private String ddd;
 
     @JsonProperty("telefone1")
-    @Size(max = 9, message = "O telefone deve ter no máximo 9 caracteres.")
     private String telefone;
 
     @JsonProperty("cidade")
-    @Valid
-    private CidadeDTO cidade;
+    private CidadeDTO cidade  = new CidadeDTO();
 
     // Construtor padrão
     public EstabelecimentoDTO() {
@@ -189,5 +159,23 @@ public class EstabelecimentoDTO {
 
     public void setCidade(CidadeDTO cidade) {
         this.cidade = cidade;
+    }
+
+    @Override
+    public String toString() {
+        return "EstabelecimentoDTO{" +
+                "cnpj='" + cnpj + '\'' +
+                ", situacaoCadastral='" + situacaoCadastral + '\'' +
+                ", dataSituacaoCadastral='" + dataSituacaoCadastral + '\'' +
+                ", tipoLogradouro='" + tipoLogradouro + '\'' +
+                ", logradouro='" + logradouro + '\'' +
+                ", numero='" + numero + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", cep='" + cep + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", ddd='" + ddd + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", cidade=" + cidade +
+                '}';
     }
 }

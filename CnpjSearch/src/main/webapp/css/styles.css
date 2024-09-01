@@ -1,21 +1,53 @@
-*{
-    font-weight: normal;
-    font-family: arial, sans-serifserif, monospace;
-    font-size: 17px;
-}
-body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh; /* Centraliza o card verticalmente */
+    background-color: #f4f4f9; /* Cor de fundo da página */
 }
-.font-normal{
-    font-weight: normal;
-    font-size: 15px;
+
+.card {
+    background-color: #fff; /* Cor de fundo do card */
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para elevação */
+    padding: 20px; /* Espaçamento interno */
+    max-width: 400px; /* Largura máxima do card */
+    width: 100%; /* Largura total até o limite de max-width */
+    border: 1px solid #e0e0e0; /* Borda leve */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Espaçamento entre os elementos do formulário */
+}
+
+.submit-button {
+    text-align: center; /* Centraliza o botão */
+}
+
+.result-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+.result-grid {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.result-grid #outputLabel {
+    font-weight: bold;
+}
+
+.result-grid #outputText {
+    color: #555;
+}
+
+
+.ui-spinner {
+    display: block;
+    margin: auto;
 }

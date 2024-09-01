@@ -3,72 +3,112 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <!-- Versão do modelo do POM -->
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Identificação do projeto -->
     <groupId>example.com</groupId>
     <artifactId>CnpjSearch</artifactId>
     <version>1</version>
     <name>CnpjSearch</name>
+    <!-- Tipo de empacotamento do projeto, neste caso WAR para aplicações web -->
     <packaging>war</packaging>
 
+    <!-- Propriedades do projeto -->
     <properties>
+        <!-- Codificação de fonte usada no projeto -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Versão do Java a ser usada para compilação -->
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-
     </properties>
 
+    <!-- Dependências do projeto -->
     <dependencies>
+        <!-- JSF API: fornecido pelo servidor de aplicação -->
+        <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>javax.faces-api</artifactId>
+            <version>2.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- PrimeFaces: biblioteca de componentes UI para JSF -->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>6.1</version>
+            <version>10.0.0</version>
         </dependency>
+
+        <!-- OmniFaces: utilitários adicionais para JSF -->
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>3.11.1</version>
+        </dependency>
+
+        <!-- Servlet API: fornecido pelo servidor de aplicação -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Jakarta Faces: implementação da API JSF -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
             <version>2.3.19</version>
         </dependency>
+
+        <!-- Jackson Databind: biblioteca para serialização e desserialização JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.14.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>omnifaces</artifactId>
-            <version>3.11</version>
-        </dependency>
+
+        <!-- JAX-RS API: API para criação de serviços RESTful -->
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
             <version>2.1</version>
         </dependency>
+
+        <!-- Weld SE: implementação do CDI (Contexts and Dependency Injection) para SE -->
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se-core</artifactId>
             <version>2.4.8.Final</version>
         </dependency>
+
+        <!-- Weld Servlet: suporte CDI para ambiente web -->
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet</artifactId>
             <version>2.4.8.Final</version>
         </dependency>
+
+        <!-- Retrofit: biblioteca para chamadas HTTP de forma simplificada -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
-            <scope>provided</scope>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>retrofit</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <!-- Retrofit Jackson Converter: adaptador para converter JSON com Retrofit -->
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-jackson</artifactId>
+            <version>2.9.0</version>
         </dependency>
     </dependencies>
+
+    <!-- Configuração de plugins para o Maven -->
     <build>
         <plugins>
+            <!-- Plugin para empacotar a aplicação como WAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>

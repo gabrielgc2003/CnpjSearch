@@ -7,9 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
+/**
+ * Representa uma entidade Empresa no banco de dados.
+ */
 @Entity
 @Table(name = "empresa")
 public class Empresa {
@@ -52,6 +53,7 @@ public class Empresa {
         this.dataSituacaoCadastral = dataSituacaoCadastral;
     }
 
+    // Construtor a partir do DTO de requisição
     public Empresa(EmpresaRequestDTO empresaRequestDTO) {
         this.razaoSocial = empresaRequestDTO.getRazaoSocial();
         this.cnpj = empresaRequestDTO.getEstabelecimento().getCnpj();
@@ -108,6 +110,7 @@ public class Empresa {
     public void setDataSituacaoCadastral(Date dataSituacaoCadastral) {
         this.dataSituacaoCadastral = dataSituacaoCadastral;
     }
+
     public Date getDataCadastro() {
         return dataCadastro;
     }
@@ -115,6 +118,4 @@ public class Empresa {
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
-
-
 }

@@ -11,12 +11,37 @@
   <component name="ChangeListManager">
     <list default="true" id="a563e60c-7bfd-4398-a20a-f9123825d90d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/client/IEmpresaRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/client/IEmpresaRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/controllers/EmpresaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/controllers/EmpresaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/controllers/ExceptionHandlerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/controllers/ExceptionHandlerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/dtos/CidadeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/dtos/CidadeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/dtos/EstabelecimentoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/dtos/EstabelecimentoDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/dtos/responses/EmpresaResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/dtos/responses/EmpresaResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/entities/Cidade.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/entities/Cidade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/entities/Empresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/entities/Empresa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/enums/ClientRequestEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/enums/ClientRequestEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/enums/SituacaoCadastralEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/enums/SituacaoCadastralEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/exceptions/ApiException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/exceptions/ApiException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/exceptions/ApiExceptionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/exceptions/ApiExceptionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/repositories/CidadeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/repositories/CidadeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/repositories/EmpresaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/repositories/EmpresaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/services/EmpresaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/services/EmpresaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/utils/retrofit/config/RetrofitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/java/example/br/cnpjsearchapi/utils/retrofit/config/RetrofitConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../CnpjSearchApi/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../CnpjSearchApi/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -54,16 +79,24 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Projetos Java/CnpjSearch/CnpjSearchApi",
+    "last_opened_file_path": "C:/Users/gabri/Desktop/CnpjSearch/CnpjSearch/src/main/java/br/example/com/validators",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.externalResources",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="br.example.com.dto" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gabri\Desktop\CnpjSearch\CnpjSearch\src\main\java\br\example\com\validators" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Server" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 7.0.16" ALTERNATIVE_JRE_ENABLED="false">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/web/" />
@@ -159,6 +192,8 @@
       <workItem from="1725129454063" duration="43000" />
       <workItem from="1725129526702" duration="545000" />
       <workItem from="1725130132259" duration="2487000" />
+      <workItem from="1725197210983" duration="882000" />
+      <workItem from="1725198251744" duration="12803000" />
     </task>
     <servers />
   </component>

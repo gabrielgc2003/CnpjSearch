@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+// Entidade para Cidade
 @Entity
 @Table(name = "cidade") // Mapeia a entidade para a tabela 'cidade' no banco de dados
 public class Cidade {
@@ -15,6 +16,7 @@ public class Cidade {
     @Id // Define o campo 'id' como chave primária da tabela
     private int id;
 
+    @Column(name = "nome", length = 100, nullable = false) // Configuração da coluna no banco, incluindo tamanho e não nulidade
     private String nome;
 
     // Construtores

@@ -1,5 +1,6 @@
 package example.br.cnpjsearchapi.enums;
 
+// Enum para Situação Cadastral
 public enum SituacaoCadastralEnum {
     ATIVA("Ativa"),
     BAIXADA("Baixada"),

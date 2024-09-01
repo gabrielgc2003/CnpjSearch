@@ -21,43 +21,48 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Optional;
 
+/**
+ * Serviço para gerenciar operações relacionadas à empresa, como busca e criação/atualização de CNPJ.
+ */
 @Service
 public class EmpresaService {
-    @Autowired
-    public RateLimiterService rateLimiterService;
 
     @Autowired
-    public EmpresaRepository empresaRepository;
+    private RateLimiterService rateLimiterService; // Serviço para gerenciar limites de requisição
 
     @Autowired
-    public CidadeRepository cidadeRepository;
+    private EmpresaRepository empresaRepository; // Repositório para acesso a dados de empresa
 
+    @Autowired
+    private CidadeRepository cidadeRepository; // Repositório para acesso a dados de cidade
+
+    /**
+     * Busca informações de uma empresa pelo CNPJ.
+     *
+     * @param cnpj o CNPJ da empresa
+     * @return um Optional contendo os dados da empresa, se encontrados
+     * @throws ApiException se houver erro na consulta
+     */
     public Optional<EmpresaResponseDTO> getCnpj(String cnpj) throws ApiException {
-        //Busca CNPJ no banco para preencher dados já existentes caso necessário alterações
-        Optional<Empresa> empresa = empresaRepository.findByCnpj(cnpj);
-
-        // Verificar se a requisição pode ser feita
+        // Verifica se o limite de requisição foi atingido
         if (!rateLimiterService.canMakeRequest(ClientRequestEnum.CNPJ_SEARCH.name())) {
             throw new ApiException("Limite de consultas para CNPJ_SEARCH atingido. Tente novamente mais tarde.");
         }
+
+        // Busca a empresa no banco de dados
+        Optional<Empresa> empresa = empresaRepository.findByCnpj(cnpj);
+
+        // Faz a requisição para o serviço externo
         Call<EmpresaResponseDTO> call = new RetrofitConfig().cnpjRequest().findCnpj(cnpj);
         try {
             Response<EmpresaResponseDTO> response = call.execute();
             if (response.isSuccessful() && response.body() != null) {
-                Optional<EmpresaResponseDTO> empresaResponse = Optional.of(response.body());
+                EmpresaResponseDTO responseDTO = response.body();
 
-                if (empresa.isPresent()) {
-                    empresaResponse.get().getEstabelecimentoDTO().setTipoLogradouro(empresa.get().getEndereco().getTipoLogradouro());
-                    empresaResponse.get().getEstabelecimentoDTO().setLogradouro(empresa.get().getEndereco().getLogradouro());
-                    empresaResponse.get().getEstabelecimentoDTO().setNumero(empresa.get().getEndereco().getNumero());
-                    empresaResponse.get().getEstabelecimentoDTO().setComplemento(empresa.get().getEndereco().getComplemento());
-                    empresaResponse.get().getEstabelecimentoDTO().setBairro(empresa.get().getEndereco().getBairro());
-                    empresaResponse.get().getEstabelecimentoDTO().setCep(empresa.get().getEndereco().getCep());
-                    empresaResponse.get().getEstabelecimentoDTO().setDdd(empresa.get().getEndereco().getDdd());
-                    empresaResponse.get().getEstabelecimentoDTO().setTelefone(empresa.get().getEndereco().getTelefone());
-                }
+                // Se a empresa já existe no banco, atualiza os dados da resposta com informações existentes
+                empresa.ifPresent(emp -> updateEndereco(responseDTO, emp));
 
-                return empresaResponse;
+                return Optional.of(responseDTO);
             } else {
                 throw new ApiException("Erro ao consultar CNPJ: CNPJ inválido ou não encontrado!");
             }
@@ -66,65 +71,116 @@ public class EmpresaService {
         }
     }
 
-    // Método para criar ou atualizar uma empresa
+    /**
+     * Cria ou atualiza uma empresa com base nos dados fornecidos.
+     *
+     * @param empresaRequestDTO os dados da empresa a serem criados ou atualizados
+     * @return um Optional contendo os dados da empresa, se criada ou atualizada
+     */
     public Optional<EmpresaResponseDTO> createCnpj(EmpresaRequestDTO empresaRequestDTO) {
-        // Busca a empresa pelo CNPJ do estabelecimento
+        // Busca a empresa pelo CNPJ
         Optional<Empresa> empresaOptional = empresaRepository.findByCnpj(empresaRequestDTO.getEstabelecimento().getCnpj());
 
         if (empresaOptional.isPresent()) {
-            // Se a empresa existir, atualiza os campos necessários
-            Empresa empresaExistente = empresaOptional.get();
-            empresaExistente.setRazaoSocial(empresaRequestDTO.getRazaoSocial());
-            empresaExistente.setDataSituacaoCadastral(Date.valueOf(empresaRequestDTO.getEstabelecimento().getDataSituacaoCadastral()));
-            empresaExistente.setSituacaoCadastral(SituacaoCadastralEnum.fromSituacao(empresaRequestDTO.getEstabelecimento().getSituacaoCadastral()));
-
-            // Atualiza o endereço e verifica a cidade
-            Endereco enderecoExistente = empresaExistente.getEndereco();
-            enderecoExistente.setTipoLogradouro(empresaRequestDTO.getEstabelecimento().getTipoLogradouro());
-            enderecoExistente.setLogradouro(empresaRequestDTO.getEstabelecimento().getLogradouro());
-            enderecoExistente.setNumero(empresaRequestDTO.getEstabelecimento().getNumero());
-            enderecoExistente.setComplemento(empresaRequestDTO.getEstabelecimento().getComplemento());
-            enderecoExistente.setBairro(empresaRequestDTO.getEstabelecimento().getBairro());
-            enderecoExistente.setCep(empresaRequestDTO.getEstabelecimento().getCep());
-            enderecoExistente.setDdd(empresaRequestDTO.getEstabelecimento().getDdd());
-            enderecoExistente.setTelefone(empresaRequestDTO.getEstabelecimento().getTelefone());
-
-            // Gerencia a cidade para evitar duplicações
-            Cidade cidade = gerenciarCidade(empresaRequestDTO.getEstabelecimento().getCidade());
-            enderecoExistente.setCidade(cidade);
-
-            empresaExistente.setDataCadastro(new Date(System.currentTimeMillis()));
-            // Salva a empresa atualizada no banco de dados
-            empresaRepository.save(empresaExistente);
-
-            // Retorna o DTO de resposta com os dados atualizados da empresa
-            return Optional.of(new EmpresaResponseDTO(empresaExistente.getRazaoSocial(), empresaExistente.getEndereco().toEstabelecimentoDTO(empresaExistente)));
+            // Atualiza a empresa existente
+            return Optional.of(updateEmpresa(empresaRequestDTO, empresaOptional.get()));
         } else {
-            // Se a empresa não existir, cria um novo objeto de Empresa usando o request DTO
-            Empresa novaEmpresa = new Empresa(empresaRequestDTO);
-            novaEmpresa.setDataCadastro(new Date(System.currentTimeMillis()));
-
-            // Gerencia a cidade para evitar duplicações antes de setar no endereço da nova empresa
-            Cidade cidade = gerenciarCidade(empresaRequestDTO.getEstabelecimento().getCidade());
-            novaEmpresa.getEndereco().setCidade(cidade);
-
-            // Salva a nova empresa no banco de dados
-            empresaRepository.save(novaEmpresa);
-
-            // Retorna o DTO de resposta com os dados da nova empresa
-            return Optional.of(new EmpresaResponseDTO(novaEmpresa.getRazaoSocial(), novaEmpresa.getEndereco().toEstabelecimentoDTO(novaEmpresa)));
+            // Cria uma nova empresa
+            return Optional.of(createNewEmpresa(empresaRequestDTO));
         }
     }
 
+    /**
+     * Atualiza os dados da resposta da empresa com as informações existentes.
+     *
+     * @param responseDTO o DTO da resposta da empresa
+     * @param empresa a entidade da empresa existente
+     */
+    private void updateEndereco(EmpresaResponseDTO responseDTO, Empresa empresa) {
+        Endereco endereco = empresa.getEndereco();
+        responseDTO.getEstabelecimentoDTO().setTipoLogradouro(endereco.getTipoLogradouro());
+        responseDTO.getEstabelecimentoDTO().setLogradouro(endereco.getLogradouro());
+        responseDTO.getEstabelecimentoDTO().setNumero(endereco.getNumero());
+        responseDTO.getEstabelecimentoDTO().setComplemento(endereco.getComplemento());
+        responseDTO.getEstabelecimentoDTO().setBairro(endereco.getBairro());
+        responseDTO.getEstabelecimentoDTO().setCep(endereco.getCep());
+        responseDTO.getEstabelecimentoDTO().setDdd(endereco.getDdd());
+        responseDTO.getEstabelecimentoDTO().setTelefone(endereco.getTelefone());
+    }
+
+    /**
+     * Atualiza uma empresa existente com os dados fornecidos.
+     *
+     * @param empresaRequestDTO os dados da empresa a serem atualizados
+     * @param empresa a entidade da empresa existente
+     * @return o DTO da resposta da empresa atualizada
+     */
+    private EmpresaResponseDTO updateEmpresa(EmpresaRequestDTO empresaRequestDTO, Empresa empresa) {
+        empresa.setRazaoSocial(empresaRequestDTO.getRazaoSocial());
+        empresa.setDataSituacaoCadastral(Date.valueOf(empresaRequestDTO.getEstabelecimento().getDataSituacaoCadastral()));
+        empresa.setSituacaoCadastral(SituacaoCadastralEnum.fromSituacao(empresaRequestDTO.getEstabelecimento().getSituacaoCadastral()));
+
+        Endereco endereco = empresa.getEndereco();
+        alteraEndereco(empresaRequestDTO, endereco);
+
+        // Gerencia a cidade e atualiza no endereço
+        Cidade cidade = gerenciarCidade(empresaRequestDTO.getEstabelecimento().getCidade());
+        endereco.setCidade(cidade);
+
+        empresa.setDataCadastro(new Date(System.currentTimeMillis()));
+        empresaRepository.save(empresa);
+
+        return new EmpresaResponseDTO(empresa.getRazaoSocial(), endereco.toEstabelecimentoDTO(empresa));
+    }
+
+    /**
+     * Cria uma nova empresa com os dados fornecidos.
+     *
+     * @param empresaRequestDTO os dados da empresa a serem criados
+     * @return o DTO da resposta da nova empresa criada
+     */
+    private EmpresaResponseDTO createNewEmpresa(EmpresaRequestDTO empresaRequestDTO) {
+        Empresa novaEmpresa = new Empresa(empresaRequestDTO);
+        novaEmpresa.setDataCadastro(new Date(System.currentTimeMillis()));
+
+        Cidade cidade = gerenciarCidade(empresaRequestDTO.getEstabelecimento().getCidade());
+        novaEmpresa.getEndereco().setCidade(cidade);
+
+        empresaRepository.save(novaEmpresa);
+
+        return new EmpresaResponseDTO(novaEmpresa.getRazaoSocial(), novaEmpresa.getEndereco().toEstabelecimentoDTO(novaEmpresa));
+    }
+
+    /**
+     * Gerencia a criação ou busca de uma cidade.
+     *
+     * @param cidadeDTO os dados da cidade
+     * @return a cidade encontrada ou criada
+     */
     private Cidade gerenciarCidade(CidadeDTO cidadeDTO) {
-        // Busca a cidade existente pelo ID ou outro critério de unicidade
         return cidadeRepository.findByNome(cidadeDTO.getNome())
                 .orElseGet(() -> {
-                    // Se não existir, cria uma nova cidade e persiste
                     Cidade novaCidade = new Cidade();
                     novaCidade.setId(cidadeDTO.getId());
                     novaCidade.setNome(cidadeDTO.getNome());
                     return cidadeRepository.save(novaCidade);
                 });
+    }
+
+    /**
+     * Atualiza os dados do endereço com base no DTO fornecido.
+     *
+     * @param empresaRequestDTO os dados do endereço
+     * @param endereco o endereço a ser atualizado
+     */
+    private void alteraEndereco(EmpresaRequestDTO empresaRequestDTO, Endereco endereco) {
+        endereco.setTipoLogradouro(empresaRequestDTO.getEstabelecimento().getTipoLogradouro());
+        endereco.setLogradouro(empresaRequestDTO.getEstabelecimento().getLogradouro());
+        endereco.setNumero(empresaRequestDTO.getEstabelecimento().getNumero());
+        endereco.setComplemento(empresaRequestDTO.getEstabelecimento().getComplemento());
+        endereco.setBairro(empresaRequestDTO.getEstabelecimento().getBairro());
+        endereco.setCep(empresaRequestDTO.getEstabelecimento().getCep());
+        endereco.setDdd(empresaRequestDTO.getEstabelecimento().getDdd());
+        endereco.setTelefone(empresaRequestDTO.getEstabelecimento().getTelefone());
     }
 }

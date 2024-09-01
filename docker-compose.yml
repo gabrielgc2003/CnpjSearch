@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile.web
     environment:
-      BASE_API_URL: http://springboot:8081
+      BASE_API_URL: http://springboot:8081/
     ports:
       - "8080:8080"
 

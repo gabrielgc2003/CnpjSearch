@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import example.br.cnpjsearchapi.dtos.EstabelecimentoDTO;
 
+//Classe de resposta para Empresa
 @JsonIgnoreProperties(ignoreUnknown = true) // Ignora propriedades desconhecidas
 public class EmpresaResponseDTO {
 
