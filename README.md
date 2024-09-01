@@ -1,4 +1,4 @@
-# Documentação do Projeto: CnpjSearchApi
+# Documentação do Projeto: CnpjSearch
 
 ## 1. Visão Geral
 
