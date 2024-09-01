@@ -65,6 +65,13 @@ mvn clean package
 
 ## 6. Acessando a Documentação da API
 
+Para acessar a página de consulta de cnpj, abra o navegador e vá para:
+
+```bash
+http://localhost:8080/CnpjSearch-1/
+```
+
+
 Para acessar a documentação interativa da API via Swagger, abra o navegador e vá para:
 
 ```bash
