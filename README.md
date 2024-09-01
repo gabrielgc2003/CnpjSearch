@@ -78,17 +78,6 @@ Para acessar a documentação interativa da API via Swagger, abra o navegador e 
 http://localhost:8081/swagger-ui.html
 ```
 
-## 7. Estrutura de Endpoints
-
-- **Consulta de CNPJ**: `/cnpj/{cnpj}`
-    - **Método**: `GET`
-    - **Descrição**: Consulta informações de uma empresa utilizando o CNPJ.
-- **Atualização de Informações**: `/cnpj/update`
-    - **Método**: `PUT`
-    - **Descrição**: Permite a atualização das informações recuperadas da busca.
-
-
-
 ## 8. Contato
-
+Link dos arquivos de docker no Google Drive: https://drive.google.com/drive/folders/1innt3Y223_vV03OIEwqeYLMpeSXd5mvJ?usp=sharing
 Caso tenha dúvidas ou precise de mais informações sobre o projeto, sinta-se à vontade para entrar em contato.
