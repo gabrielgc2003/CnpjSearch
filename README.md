@@ -2,7 +2,7 @@
 
 ## 1. Visão Geral
 
-**CnpjSearchApi** é uma aplicação desenvolvida para consultar dados de empresas a partir do CNPJ, utilizando uma API pública(https://www.cnpj.ws) e permitindo o registro de informações adicionais em um banco de dados PostgreSQL. A aplicação foi construída utilizando Spring Boot para o backend, JSF para a interface do usuário, e Docker para containerização.
+**CnpjSearch** é uma aplicação desenvolvida para consultar dados de empresas a partir do CNPJ, utilizando uma API pública(https://www.cnpj.ws) e permitindo o registro de informações adicionais em um banco de dados PostgreSQL. A aplicação foi construída utilizando Spring Boot para o backend, JSF para a interface do usuário, e Docker para containerização.
 
 ## 2. Tecnologias Utilizadas
 
@@ -78,6 +78,6 @@ Para acessar a documentação interativa da API via Swagger, abra o navegador e 
 http://localhost:8081/swagger-ui.html
 ```
 
-## 8. Contato
+## 7. Contato
 Link dos arquivos de docker no Google Drive: https://drive.google.com/drive/folders/1innt3Y223_vV03OIEwqeYLMpeSXd5mvJ?usp=sharing
 Caso tenha dúvidas ou precise de mais informações sobre o projeto, sinta-se à vontade para entrar em contato.
